@@ -2,6 +2,7 @@ from .func import *
 from comfy.utils import ProgressBar
 
 NODE_NAME = 'CatVTON_Wrapper'
+cache_dir = "/stable-diffusion-cache/models"
 
 class LS_CatVTON:
 
@@ -32,6 +33,9 @@ class LS_CatVTON:
 
         catvton_path = os.path.join(folder_paths.models_dir, "CatVTON")
         sd15_inpaint_path = os.path.join(catvton_path, "stable-diffusion-inpainting")
+        if os.path.exists(cache_dir):
+            sd15_inpaint_path = f"{cache_dir}/stable-diffusion-inpainting"
+            catvton_path = f"{catvton_path}/CatVTON"
 
         mixed_precision = {
             "fp32": torch.float32,
