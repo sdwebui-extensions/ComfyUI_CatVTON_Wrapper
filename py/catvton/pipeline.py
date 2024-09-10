@@ -39,7 +39,10 @@ class CatVTONPipeline:
         self.device = device
         self.weight_dtype = weight_dtype
         self.noise_scheduler = DDIMScheduler.from_pretrained(base_ckpt, subfolder="scheduler")
-        self.vae = AutoencoderKL.from_pretrained(os.path.join(folder_paths.models_dir, "CatVTON", "sd-vae-ft-mse")).to(device, dtype=weight_dtype)
+        if os.path.exists(folder_paths.cache_dir):
+            self.vae = AutoencoderKL.from_pretrained(os.path.join(folder_paths.cache_dir, "sd-vae-ft-mse")).to(device, dtype=weight_dtype)
+        else:
+            self.vae = AutoencoderKL.from_pretrained(os.path.join(folder_paths.models_dir, "CatVTON", "sd-vae-ft-mse")).to(device, dtype=weight_dtype)
         self.unet = UNet2DConditionModel.from_pretrained(base_ckpt, subfolder="unet").to(device, dtype=weight_dtype)
         init_adapter(self.unet, cross_attn_cls=SkipAttnProcessor)  # Skip Cross-Attention
         self.attn_modules = get_trainable_module(self.unet, "attention")

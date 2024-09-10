@@ -35,7 +35,7 @@ class LS_CatVTON:
         sd15_inpaint_path = os.path.join(catvton_path, "stable-diffusion-inpainting")
         if os.path.exists(cache_dir):
             sd15_inpaint_path = f"{cache_dir}/stable-diffusion-inpainting"
-            catvton_path = f"{catvton_path}/CatVTON"
+            catvton_path = f"{cache_dir}/CatVTON"
 
         mixed_precision = {
             "fp32": torch.float32,
